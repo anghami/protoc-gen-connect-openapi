@@ -1,0 +1,177 @@
+syntax = "proto3";
+
+package required_headers_test;
+
+import "google/api/annotations.proto";
+import "headers/headers.proto";
+
+option go_package = "github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/testdata/required_headers";
+
+// Service with service-level required headers
+service UserService {
+  option (headers.service) = {
+    required_headers: [
+      {
+        name: "X-API-Key"
+        description: "API key for authentication"
+        type: "string"
+        required: true
+      },
+      {
+        name: "X-Tenant-ID"
+        description: "Tenant identifier"
+        type: "string"
+        required: true
+      }
+    ]
+  };
+
+  // This RPC inherits service-level headers
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+  
+  // This RPC has service headers + additional method-specific header
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (headers.method) = {
+      required_headers: [
+        {
+          name: "X-Admin-Token"
+          description: "Admin authorization token"
+          type: "string"
+          required: true
+        }
+      ]
+    };
+  }
+  
+  // This RPC has a method-specific header that overrides a service header
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
+    option (headers.method) = {
+      required_headers: [
+        {
+          name: "X-API-Key"
+          description: "Override API key with different description"
+          type: "string"
+          required: true
+          format: "uuid"
+        }
+      ]
+    };
+  }
+}
+
+// Service with only method-level headers (no service-level headers)
+service ProductService {
+  rpc GetProduct(GetProductRequest) returns (GetProductResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+    option (headers.method) = {
+      required_headers: [
+        {
+          name: "X-Client-Version"
+          description: "Client version header"
+          type: "string"
+          required: true
+          example: "1.0.0"
+        }
+      ]
+    };
+  }
+  
+  // RPC with no headers (only Connect protocol headers)
+  rpc ListProducts(ListProductsRequest) returns (ListProductsResponse) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
+}
+
+// Service with Google API HTTP annotations and headers
+service OrderService {
+  option (headers.service) = {
+    required_headers: [
+      {
+        name: "Authorization"
+        description: "Bearer token for authentication"
+        type: "string"
+        required: true
+      }
+    ]
+  };
+
+  rpc GetOrder(GetOrderRequest) returns (GetOrderResponse) {
+    option (google.api.http) = {
+      get: "/v1/orders/{order_id}"
+    };
+    option (headers.method) = {
+      required_headers: [
+        {
+          name: "X-Request-ID"
+          description: "Unique request identifier"
+          type: "string"
+          required: true
+          format: "uuid"
+        }
+      ]
+    };
+  }
+}
+
+// Request/Response messages
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message GetUserResponse {
+  string user_id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message DeleteUserRequest {
+  string user_id = 1;
+}
+
+message DeleteUserResponse {
+  bool success = 1;
+}
+
+message UpdateUserRequest {
+  string user_id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message UpdateUserResponse {
+  string user_id = 1;
+  string name = 2;
+  string email = 3;
+}
+
+message GetProductRequest {
+  string product_id = 1;
+}
+
+message GetProductResponse {
+  string product_id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message ListProductsRequest {
+  int32 page_size = 1;
+  string page_token = 2;
+}
+
+message ListProductsResponse {
+  repeated GetProductResponse products = 1;
+  string next_page_token = 2;
+}
+
+message GetOrderRequest {
+  string order_id = 1;
+}
+
+message GetOrderResponse {
+  string order_id = 1;
+  string status = 2;
+  repeated string items = 3;
+}
