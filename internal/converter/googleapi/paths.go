@@ -16,6 +16,7 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
+	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/headers"
 	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/options"
 	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/schema"
 	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/util"
@@ -285,6 +286,15 @@ func httpRuleToPathMap(opts options.Options, md protoreflect.MethodDescriptor, r
 		} else {
 			slog.Warn("body field not found", slog.String("param", rule.Body))
 		}
+	}
+
+	// Add custom headers from service and method annotations
+	serviceHeaders := headers.GetServiceHeaders(service)
+	methodHeaders := headers.GetMethodHeaders(md)
+	customHeaders := headers.MergeHeaders(serviceHeaders, methodHeaders)
+	customHeaderParams := headers.HeadersToParameters(customHeaders)
+	for _, headerParam := range customHeaderParams {
+		op.Parameters = mergeOrAppendParameter(op.Parameters, headerParam)
 	}
 
 	// Responses

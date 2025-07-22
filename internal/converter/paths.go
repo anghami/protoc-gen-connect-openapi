@@ -6,6 +6,7 @@ import (
 	"github.com/pb33f/libopenapi/orderedmap"
 	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/gnostic"
 	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/googleapi"
+	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/headers"
 	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/options"
 	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/util"
 	"google.golang.org/protobuf/reflect/protoreflect"
@@ -271,6 +272,7 @@ func methodToOperaton(opts options.Options, method protoreflect.MethodDescriptor
 		},
 	}
 
+	// Add Connect protocol headers
 	op.Parameters = append(op.Parameters,
 		&v3.Parameter{
 			Name:     "Connect-Protocol-Version",
@@ -284,6 +286,13 @@ func methodToOperaton(opts options.Options, method protoreflect.MethodDescriptor
 			Schema: base.CreateSchemaProxyRef("#/components/schemas/connect-timeout-header"),
 		},
 	)
+
+	// Add custom headers from service and method annotations
+	serviceHeaders := headers.GetServiceHeaders(service)
+	methodHeaders := headers.GetMethodHeaders(method)
+	customHeaders := headers.MergeHeaders(serviceHeaders, methodHeaders)
+	customHeaderParams := headers.HeadersToParameters(customHeaders)
+	op.Parameters = append(op.Parameters, customHeaderParams...)
 
 	// Request parameters
 	inputId := util.FormatTypeRef(string(method.Input().FullName()))
