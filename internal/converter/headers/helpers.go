@@ -1,10 +1,10 @@
 package headers
 
 import (
+	"github.com/anghami/protoc-gen-connect-openapi/internal/converter/util"
 	"github.com/pb33f/libopenapi/datamodel/high/base"
-	"github.com/pb33f/libopenapi/utils"
 	v3 "github.com/pb33f/libopenapi/datamodel/high/v3"
-	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/util"
+	"github.com/pb33f/libopenapi/utils"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 )

@@ -16,10 +16,10 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 
-	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/headers"
-	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/options"
-	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/schema"
-	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/util"
+	"github.com/anghami/protoc-gen-connect-openapi/internal/converter/headers"
+	"github.com/anghami/protoc-gen-connect-openapi/internal/converter/options"
+	"github.com/anghami/protoc-gen-connect-openapi/internal/converter/schema"
+	"github.com/anghami/protoc-gen-connect-openapi/internal/converter/util"
 )
 
 func mergeOrAppendParameter(existingParams []*v3.Parameter, newParam *v3.Parameter) []*v3.Parameter {
@@ -263,7 +263,7 @@ func httpRuleToPathMap(opts options.Options, md protoreflect.MethodDescriptor, r
 				Description: util.FormatComments(loc),
 				Content:     util.MakeMediaTypes(opts, bodySchema, false, false),
 			}
-			
+
 			// Add any unhandled fields in the request message as query parameters.
 			// This covers the case where body: "specific_field" is used, and any fields
 			// not in the path or body should become query parameters.
@@ -278,7 +278,7 @@ func httpRuleToPathMap(opts options.Options, md protoreflect.MethodDescriptor, r
 			coveredFields[string(field.FullName())] = struct{}{}
 			// If body is a nested path (a.b.c) also skip its JSON path
 			coveredFields[strings.Join(jsonPath, ".")] = struct{}{}
-			
+
 			newQueryParams := flattenToParams(opts, md.Input(), "", coveredFields)
 			for _, newQueryParam := range newQueryParams {
 				op.Parameters = mergeOrAppendParameter(op.Parameters, newQueryParam)

@@ -1,4 +1,4 @@
-module github.com/sudorandom/protoc-gen-connect-openapi
+module github.com/anghami/protoc-gen-connect-openapi
 
 go 1.23.0
 
