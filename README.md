@@ -1,5 +1,5 @@
 # protoc-gen-connect-openapi
-[![Go](https://github.com/sudorandom/protoc-gen-connect-openapi/actions/workflows/go.yml/badge.svg)](https://github.com/sudorandom/protoc-gen-connect-openapi/actions/workflows/go.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/sudorandom/protoc-gen-connect-openapi)](https://goreportcard.com/report/github.com/sudorandom/protoc-gen-connect-openapi) [![Go Reference](https://pkg.go.dev/badge/github.com/sudorandom/protoc-gen-connect-openapi.svg)](https://pkg.go.dev/github.com/sudorandom/protoc-gen-connect-openapi)
+[![Go](https://github.com/anghami/protoc-gen-connect-openapi/actions/workflows/go.yml/badge.svg)](https://github.com/anghami/protoc-gen-connect-openapi/actions/workflows/go.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/anghami/protoc-gen-connect-openapi)](https://goreportcard.com/report/github.com/anghami/protoc-gen-connect-openapi) [![Go Reference](https://pkg.go.dev/badge/github.com/anghami/protoc-gen-connect-openapi.svg)](https://pkg.go.dev/github.com/anghami/protoc-gen-connect-openapi)
 
 Generate OpenAPI v3.1 from protobuf matching the [Connect protocol](https://connectrpc.com/docs/protocol). With these [OpenAPI](https://www.openapis.org/what-is-openapi) specs, you can:
 
@@ -14,7 +14,7 @@ Features:
 - Support for many [Protovalidate](https://github.com/bufbuild/protovalidate) options ([more info](protovalidate.md))
 - Support for many [OpenAPIv3](https://github.com/google/gnostic/blob/main/openapiv3/annotations.proto) options from the [google/gnostic project](https://github.com/google/gnostic) protobufs ([more info](gnostic.md))
 - Support for [gRPC-Gateway annotations](https://github.com/grpc-ecosystem/grpc-gateway) ([more info](grpcgateway.md))
-- Has [an easy interface](https://pkg.go.dev/github.com/sudorandom/protoc-gen-connect-openapi/converter) for generating OpenAPI specs within the process
+- Has [an easy interface](https://pkg.go.dev/github.com/anghami/protoc-gen-connect-openapi/converter) for generating OpenAPI specs within the process
 
 Example Pipeline:
 - Protobuf file: [example](examples/basic.proto)
@@ -50,7 +50,7 @@ We can document this API as if it's a real JSON/HTTP API... because it is, and t
 ## Install
 
 ### Binaries
-You can download pre-built binaries from the [Github releases page](https://github.com/sudorandom/protoc-gen-connect-openapi/releases/latest).
+You can download pre-built binaries from the [Github releases page](https://github.com/anghami/protoc-gen-connect-openapi/releases/latest).
 
 ### asdf
 
@@ -64,7 +64,7 @@ $ asdf global protoc-gen-connect-openapi latest
 ### Using Go
 It isn't recommended, but you can also install directly using Go:
 ```shell
-go install github.com/sudorandom/protoc-gen-connect-openapi@main
+go install github.com/anghami/protoc-gen-connect-openapi@main
 ```
 
 ## Usage

@@ -7,10 +7,10 @@ import (
 
 	"buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	"buf.build/go/protovalidate/resolve"
+	"github.com/anghami/protoc-gen-connect-openapi/internal/converter/options"
+	"github.com/anghami/protoc-gen-connect-openapi/internal/converter/util"
 	"github.com/pb33f/libopenapi/datamodel/high/base"
 	"github.com/pb33f/libopenapi/utils"
-	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/options"
-	"github.com/sudorandom/protoc-gen-connect-openapi/internal/converter/util"
 	"google.golang.org/protobuf/reflect/protoreflect"
 	"gopkg.in/yaml.v3"
 )
